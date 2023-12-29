@@ -8,11 +8,20 @@ import javax.persistence.*;
 public class Composition {
     private Long id;
 
-    private Long id_album;
+    private Album idAlbum;
 
     private String name_com;
 
     private int length;
+
+
+    public Composition() {
+    }
+
+    public Composition(String name_com, int length) {
+        this.name_com = name_com;
+        this.length = length;
+    }
 
     @Id
     @GeneratedValue(generator = "SEQ_ID")
@@ -20,30 +29,35 @@ public class Composition {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Column(name = "id_album")
-    public Long getIdAlbum() {
-        return id_album;
+    @ManyToOne
+    @JoinColumn(name = "id_album")
+    public Album getIdAlbum() {
+        return idAlbum;
     }
-    public void setIdAlbum(Long id_album) {
-        this.id_album = id_album;
+
+    public void setIdAlbum(Album idAlbum) {
+        this.idAlbum = idAlbum;
     }
 
     @Column(name = "name_com")
     public String getName() {
         return name_com;
     }
+
     public void setName(String name_com) {
         this.name_com = name_com;
     }
 
-    @Column(name = "id_album")
+    @Column(name = "length")
     public int getLength() {
         return length;
     }
+
     public void setLength(int length) {
         this.length = length;
     }

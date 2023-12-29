@@ -11,6 +11,13 @@ public class Performer {
     private String name;
     private List<Album> albums;
 
+    public Performer() {
+    }
+
+    public Performer(String name) {
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(generator = "SEQ_ID")
     @Column(name = "id")
@@ -31,9 +38,8 @@ public class Performer {
         this.name = name;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch =
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, fetch =
             FetchType.LAZY)
-    @JoinColumn(name = "id_performer", nullable = false)
     public List<Album> getAlbums() {
         return albums;
     }

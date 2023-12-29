@@ -8,9 +8,17 @@ import java.util.List;
 @Table(name = "albums")
 public class Album {
     private Long id;
-    private Long id_performer;
+    private Performer idPerformer;
     private String name;
     private String style;
+
+    public Album() {
+    }
+
+    public Album(String name, String style) {
+        this.name = name;
+        this.style = style;
+    }
 
     private List<Composition> compositions;
 
@@ -25,13 +33,14 @@ public class Album {
         this.id = id;
     }
 
-    @Column(name = "id_performer")
-    public Long getId_performer() {
-        return id_performer;
+    @ManyToOne
+    @JoinColumn(name = "id_performer")
+    public Performer getIdPerformer() {
+        return idPerformer;
     }
 
-    public void setId_performer(Long id_performer) {
-        this.id_performer = id_performer;
+    public void setIdPerformer(Performer idPerformer) {
+        this.idPerformer = idPerformer;
     }
 
     @Column(name = "name")
@@ -52,9 +61,8 @@ public class Album {
         this.style = style;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch =
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, fetch =
             FetchType.LAZY)
-    @JoinColumn(name = "id_album", nullable = false)
     public List<Composition> getCompositions() {
         return compositions;
     }

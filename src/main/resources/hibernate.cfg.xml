@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
         <!-- PostgreSQL connection settings -->
@@ -10,14 +7,13 @@
         <property name="connection.username">postgres</property>
         <property name="connection.password">123</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hbm2ddl.auto">update</property>
+<!--        <property name="hbm2ddl.auto">update</property>-->
         <!-- Other hibernate settings -->
         <property name="show_sql">true</property>
         <!-- Annotated classes (Mapping from Annotations) -->
-        <mapping package="src.main.java.model"/>
-        <mapping class="src.main.java.model.Composition"/>
-        <mapping class="src.main.java.model.Performer"/>
-        <mapping class="src.main.java.model.Album"/>
+        <mapping class="model.Composition"/>
+        <mapping class="model.Performer"/>
+        <mapping class="model.Album"/>
         <!-- Mapping from configuration file (as an alternative to annotations) -->
         <!--<mapping resource="mapping.hbm.xml"/>-->
     </session-factory>

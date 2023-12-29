@@ -1,56 +1,69 @@
+import dao.AlbumDAO;
+import dao.CompositionDAO;
+import dao.PerformerDAO;
 import model.Album;
 import model.Composition;
 import model.Performer;
 import org.hibernate.Session;
+import util.HibernateUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HibernateStart {
     public static void main(String[] args) {
-        Session session =
-                HibernateUtil.getSession();
-        // Начало транзакции
-        session.beginTransaction();
-        Performer performer1 = new Performer();
-        performer1.setName("per1");
-        List<Album> albums = new ArrayList<>();
-        Album album1 = new Album();
-        album1.setName("alb1");
-        album1.setStyle("Style1");
-        album1.setId_performer(performer1.getId());
-        Album album2 = new Album();
-        album1.setName("alb2");
-        album1.setStyle("Style1");
-        album1.setId_performer(performer1.getId());
-        List<Composition> compositions1 = new ArrayList<>();
-        List<Composition> compositions2 = new ArrayList<>();
-        Composition composition1 = new Composition();
-        Composition composition2 = new Composition();
-        Composition composition3 = new Composition();
-        composition1.setName("com1");
-        composition2.setName("com2");
-        composition3.setName("com3");
-        composition1.setLength(5);
-        composition2.setLength(4);
-        composition3.setLength(2);
-        composition1.setIdAlbum(album1.getId());
-        composition2.setIdAlbum(album2.getId());
-        composition3.setIdAlbum(album2.getId());
+        Session session=HibernateUtil.getSession();
+        PerformerDAO performerDAO = new PerformerDAO(session);
+        AlbumDAO albumDAO = new AlbumDAO(session);
+        CompositionDAO compositionDAO = new CompositionDAO(session);
+        Performer performer1 = new Performer("Performer5");
+        Performer performer2 = new Performer("Performer4");
+
+        Album album1 = new Album("Rise","Metal");
+        Album album2 = new Album("Popcorn","Classic");
+        Album album3 = new Album("Borshch","Heavy Metal");
+
+        album1.setIdPerformer(performer1);
+        album2.setIdPerformer(performer2);
+        album3.setIdPerformer(performer2);
+
+        List<Album> albums1= new ArrayList<>();
+        albums1.add(album1);
+        performer1.setAlbums(albums1);
+
+        List<Album> albums2= new ArrayList<>();
+        albums2.add(album2);
+        albums2.add(album3);
+        performer2.setAlbums(albums2);
+
+        Composition composition1 = new Composition("First",13);
+        Composition composition2 = new Composition("Second",2);
+        Composition composition3 = new Composition("Third",6);
+        Composition composition4 = new Composition("Fourth",3);
+
+        composition1.setIdAlbum(album1);
+        composition2.setIdAlbum(album2);
+        composition3.setIdAlbum(album3);
+        composition4.setIdAlbum(album3);
+
+        List<Composition> compositions1= new ArrayList<>();
         compositions1.add(composition1);
         album1.setCompositions(compositions1);
+
+        List<Composition> compositions2= new ArrayList<>();
         compositions2.add(composition2);
-        compositions2.add(composition3);
         album2.setCompositions(compositions2);
-        albums.add(album1);
-        albums.add(album2);
-        performer1.setAlbums(albums);
-        session.save(composition1);
-        session.save(composition2);
-        session.save(composition3);
-        session.save(album1);
-        session.save(album2);
-        session.save(performer1);
-        session.getTransaction().commit();
+
+        List<Composition> compositions3= new ArrayList<>();
+        compositions3.add(composition3);
+        compositions3.add(composition4);
+        album3.setCompositions(compositions3);
+
+        performerDAO.insert(performer1);
+        performerDAO.insert(performer2);
+
+        System.out.println(performerDAO.select(performer1.getId()).getName());
+        System.out.println(Arrays.toString(performerDAO.selectAll().toArray()));
     }
 }
